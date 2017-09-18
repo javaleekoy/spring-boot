@@ -1,6 +1,6 @@
 package com.peramdy.service.impl;
 
-import com.peramdy.dao.StudentDao;
+import com.peramdy.dao.master.StudentDao;
 import com.peramdy.entity.Student;
 import com.peramdy.service.StudentService;
 import org.springframework.stereotype.Service;

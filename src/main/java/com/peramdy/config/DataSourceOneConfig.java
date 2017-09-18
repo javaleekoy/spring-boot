@@ -2,10 +2,13 @@ package com.peramdy.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -18,46 +21,37 @@ import javax.sql.DataSource;
  * Created by peramdy on 2017/9/16.
  */
 @Configuration
-@EnableTransactionManagement
+@MapperScan(sqlSessionFactoryRef = "sqlSessionFactoryOne", basePackages = DataSourceOneConfig.PACKAGE)
 public class DataSourceOneConfig implements EnvironmentAware {
+
+    static final String PACKAGE = "com.peramdy.dao.master";
+    static final String MAPPER_LOCATION="classpath:mapper/master/*.xml";
 
     private RelaxedPropertyResolver relaxedPropertyResolver;
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.relaxedPropertyResolver = new RelaxedPropertyResolver(environment, "spring.datasource.");
+        this.relaxedPropertyResolver = new RelaxedPropertyResolver(environment, "spring.master.datasource.");
     }
 
-    @Bean(name = "dataSource")
+    @Bean(name = "dataSourceOne")
+    @Primary
     public DataSource dataSource() {
-        org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
-        dataSource.setUrl(relaxedPropertyResolver.getProperty("url"));
-        dataSource.setDriverClassName(relaxedPropertyResolver.getProperty("driver-class-name"));
-        dataSource.setUsername(relaxedPropertyResolver.getProperty("username"));
-        dataSource.setPassword(relaxedPropertyResolver.getProperty("password"));
-        dataSource.setInitialSize(Integer.parseInt(relaxedPropertyResolver.getProperty("initial-size")));
-        dataSource.setMinIdle(Integer.valueOf(relaxedPropertyResolver.getProperty("min-idle")));
-        dataSource.setMaxWait(Integer.valueOf(relaxedPropertyResolver.getProperty("max-wait")));
-        dataSource.setMaxActive(Integer.valueOf(relaxedPropertyResolver.getProperty("max-active")));
-        dataSource.setMinEvictableIdleTimeMillis(Integer.valueOf(relaxedPropertyResolver.getProperty("min-evictable-idle-time-millis")));
+        DataSource dataSource = DsConfig.createDataSource(relaxedPropertyResolver);
         return dataSource;
     }
 
 
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
-//        sqlSessionFactoryBean.setTypeAliasesPackage("com.peramdy.dao");
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-//        sqlSessionFactoryBean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
-        return sqlSessionFactoryBean.getObject();
+    @Bean(name = "sqlSessionFactoryOne")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSourceOne") DataSource dataSource) throws Exception {
+        SqlSessionFactory sqlSessionFactory = SfConfig.createSqlSessionFactory(dataSource, MAPPER_LOCATION);
+        return sqlSessionFactory;
     }
 
-    @Bean(value = "transactionManager")
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
+    @Bean(value = "transactionManagerOne")
+    @Primary
+    public PlatformTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
 
