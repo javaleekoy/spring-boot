@@ -7,7 +7,7 @@
       SELECT * FROM  student  s WHERE  s.id=#{id}
     </select>
 
-    <insert id="addStuInfo" parameterType="com.peramdy.entity.Student" useGeneratedKeys="true" keyProperty="stuId" >
+    <insert id="addStuInfo" parameterType="com.peramdy.entity.Student" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO student (stuName,classId) VALUES(#{stuName},#{classId})
     </insert>
 </mapper>
