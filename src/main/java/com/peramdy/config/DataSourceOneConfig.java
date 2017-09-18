@@ -28,9 +28,9 @@ public class DataSourceOneConfig implements EnvironmentAware {
         this.relaxedPropertyResolver = new RelaxedPropertyResolver(environment, "spring.datasource.");
     }
 
-    @Bean
+    @Bean(name = "dataSource")
     public DataSource dataSource() {
-        org.apache.tomcat.jdbc.pool.DataSource dataSource=new org.apache.tomcat.jdbc.pool.DataSource();
+        org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
         dataSource.setUrl(relaxedPropertyResolver.getProperty("url"));
         dataSource.setDriverClassName(relaxedPropertyResolver.getProperty("driver-class-name"));
         dataSource.setUsername(relaxedPropertyResolver.getProperty("username"));
@@ -44,25 +44,21 @@ public class DataSourceOneConfig implements EnvironmentAware {
     }
 
 
-    @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception{
-        SqlSessionFactoryBean sqlSessionFactoryBean=new SqlSessionFactoryBean();
+    @Bean(name = "sqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.peramdy.entity");
+//        sqlSessionFactoryBean.setTypeAliasesPackage("com.peramdy.dao");
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 //        sqlSessionFactoryBean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
-    @Bean
+    @Bean(value = "transactionManager")
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-
-
-
-
 
 
 }

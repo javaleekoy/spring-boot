@@ -9,4 +9,7 @@ public interface StudentService {
     
     Student queryStudentInfoById(Integer id);
 
+    Student addStuInfo(Student student);
+
+
 }

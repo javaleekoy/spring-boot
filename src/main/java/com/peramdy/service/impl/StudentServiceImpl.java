@@ -1,10 +1,11 @@
 package com.peramdy.service.impl;
 
+import com.peramdy.dao.StudentDao;
 import com.peramdy.entity.Student;
-import com.peramdy.mapper.StudentMapper;
 import com.peramdy.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Created by peramdy on 2017/9/16.
@@ -12,12 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-//    @Autowired
-//    private StudentMapper studentMapper;
+    @Resource
+    private StudentDao studentDao;
 
     @Override
     public Student queryStudentInfoById(Integer id) {
-        return null;
-//        return studentMapper.queryStudentInfo(id);
+        return studentDao.queryStudentInfo(id);
+    }
+
+    @Override
+    public Student addStuInfo(Student student) {
+        int primaryId = studentDao.addStuInfo(student);
+        student.setId(primaryId);
+        return student;
     }
 }
