@@ -44,4 +44,24 @@ public class StudentController {
             return student.toString();
     }
 
+
+    @RequestMapping(value = "/slaver/info", method = RequestMethod.GET)
+    public String StuInfo_slaver(@RequestParam("stuId") Integer stuId) {
+        Student student = studentService.queryStudentInfoById_slaver(stuId);
+        if (student == null)
+            return null;
+        else
+            return student.toString();
+    }
+
+    @ResponseBody
+    @RequestMapping("/slaver/add")
+    public String addStuInfo_slaver(@RequestBody Student stu) {
+        int student = studentService.addStuInfo_slaver(stu);
+        if (student > 0)
+            return "success";
+        else
+            return "fail";
+    }
+
 }

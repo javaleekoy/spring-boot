@@ -49,9 +49,9 @@ public class PeramdyApplication
         if (args != null && args.length > 0) {
             ip = args[0];
             port = Integer.parseInt(args[1]);
-            logger.info(String.format("》》》》》》》》》启动地址：%s，端口地址：%d", ip, port));
+            logger.info(String.format("----->启动地址：%s，端口地址：%d", ip, port));
         } else {
-            logger.error("》》》》》》》》》启动参数不能为空！》》》》》》》》》");
+            logger.error("------->启动参数不能为空!");
             System.exit(0);
         }
 

@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @MapperScan(sqlSessionFactoryRef = "sqlSessionFactoryTwo", basePackages = DataSourceTwoConfig.PACKAGE)
 public class DataSourceTwoConfig implements EnvironmentAware {
 
-    static final String PACKAGE = "com.permady.dao.slaver";
+    static final String PACKAGE = "com.peramdy.dao.slaver";
     static final String MAPPER_LOCATION = "classpath:mapper/slaver/*.xml";
 
     private RelaxedPropertyResolver relaxedPropertyResolver;

@@ -12,4 +12,8 @@ public interface StudentService {
     Student addStuInfo(Student student);
 
 
+    Student queryStudentInfoById_slaver(Integer id);
+
+    int addStuInfo_slaver(Student student);
+
 }

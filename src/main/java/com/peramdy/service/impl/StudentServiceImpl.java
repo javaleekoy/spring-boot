@@ -3,6 +3,7 @@ package com.peramdy.service.impl;
 import com.peramdy.dao.master.StudentDao;
 import com.peramdy.entity.Student;
 import com.peramdy.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,17 +15,31 @@ import javax.annotation.Resource;
 public class StudentServiceImpl implements StudentService {
 
     @Resource
-    private StudentDao studentDao;
+    private StudentDao studentMasterDao;
+
+    @Autowired
+    private com.peramdy.dao.slaver.StudentDao studentSlaverDao;
 
     @Override
     public Student queryStudentInfoById(Integer id) {
-        return studentDao.queryStudentInfo(id);
+        return studentMasterDao.queryStudentInfo(id);
     }
 
     @Override
     public Student addStuInfo(Student student) {
-        int primaryId = studentDao.addStuInfo(student);
+        int primaryId = studentMasterDao.addStuInfo(student);
         student.setId(primaryId);
         return student;
+    }
+
+
+    @Override
+    public Student queryStudentInfoById_slaver(Integer id) {
+        return studentSlaverDao.queryStuInfo(id);
+    }
+
+    @Override
+    public int addStuInfo_slaver(Student student) {
+        return studentSlaverDao.addStuInfo(student);
     }
 }

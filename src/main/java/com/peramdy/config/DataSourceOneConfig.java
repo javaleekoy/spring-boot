@@ -50,8 +50,8 @@ public class DataSourceOneConfig implements EnvironmentAware {
 
     @Bean(value = "transactionManagerOne")
     @Primary
-    public PlatformTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+    public PlatformTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
     }
 
 
