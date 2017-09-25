@@ -1,16 +1,21 @@
 package com.peramdy;
 
+import filter.AddRequestParsFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by peramdy on 2017/9/12.
@@ -56,5 +61,15 @@ public class PeramdyApplication
         }
 
         SpringApplication.run(PeramdyApplication.class, args);
+    }
+
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean(){
+        FilterRegistrationBean  registrationBean=new FilterRegistrationBean(new AddRequestParsFilter());
+        List<String> pathList=new ArrayList<String>();
+        pathList.add("/stu/download/*");
+        registrationBean.setUrlPatterns(pathList);
+        return registrationBean;
     }
 }
