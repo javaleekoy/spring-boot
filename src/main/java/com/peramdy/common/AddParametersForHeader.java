@@ -7,11 +7,11 @@ import java.util.*;
 /**
  * Created by peramdy on 2017/9/23.
  */
-public class RequestAddParametersForHeader extends HttpServletRequestWrapper {
+public class AddParametersForHeader extends HttpServletRequestWrapper {
 
     private final Map<String, String> customHeaders;
 
-    public RequestAddParametersForHeader(HttpServletRequest request){
+    public AddParametersForHeader(HttpServletRequest request){
         super(request);
         this.customHeaders = new HashMap<String, String>();
     }

@@ -1,6 +1,6 @@
 package filter;
 
-import com.peramdy.common.RequestAddPars;
+import com.peramdy.common.AddParametersForHeader;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ public class AddRequestParsFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         System.out.println("Auth:"+  req.getHeader("X-Auth-Sense"));
         System.out.println("Timestamp:"+req.getHeader("Timestamp"));
-        RequestAddPars requestAddPars=new RequestAddPars(req);
+        AddParametersForHeader requestAddPars=new AddParametersForHeader(req);
         requestAddPars.putHeader("X-Auth-Sense","d6f2d37c2f518ce5b2d2d299b3542e82");
         requestAddPars.putHeader("Timestamp","1506147081");
         chain.doFilter(requestAddPars, response);

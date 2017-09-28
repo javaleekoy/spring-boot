@@ -68,7 +68,7 @@ public class PeramdyApplication
     public FilterRegistrationBean filterRegistrationBean(){
         FilterRegistrationBean  registrationBean=new FilterRegistrationBean(new AddRequestParsFilter());
         List<String> pathList=new ArrayList<String>();
-        pathList.add("/stu/download/*");
+        pathList.add("/utils/download/*");
         registrationBean.setUrlPatterns(pathList);
         return registrationBean;
     }

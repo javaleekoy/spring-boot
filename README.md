@@ -4,7 +4,7 @@
 
 ##### multiple dataSource
 
-##### dubbo 
+##### dubbo filter addParameterHeader elastic
 
 ``
  -Dspring.profiles.active=dev
