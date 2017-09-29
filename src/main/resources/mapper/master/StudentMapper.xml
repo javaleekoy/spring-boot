@@ -7,7 +7,16 @@
       SELECT * FROM  student  s WHERE  s.id=#{id}
     </select>
 
-    <insert id="addStuInfo" parameterType="com.peramdy.entity.Student" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="addStuInfo" parameterType="com.peramdy.entity.Student" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO student (stuName,classId) VALUES(#{stuName},#{classId})
     </insert>
+
+    <update id="updateTokenById">
+        UPDATE student s SET s.token=#{token},s.updateTime=NOW() WHERE s.id=#{stuId}
+    </update>
+
+    <select id="queryStuIdByToken" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT s.id FROM student s WHERE s.token=#{token}
+    </select>
+
 </mapper>

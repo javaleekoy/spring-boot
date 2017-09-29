@@ -1,36 +1,24 @@
 package com.peramdy.controller.student;
 
 import com.peramdy.common.Enum.ResponseCodeEnum;
+import com.peramdy.controller.base.BaseController;
 import com.peramdy.entity.Student;
 import com.peramdy.service.StudentService;
 import com.peramdy.utils.ResponseSimpleUtil;
 import com.peramdy.utils.ResponseUtil;
-import com.peramdy.utils.SaltUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.Date;
 
 /**
  * Created by peramdy on 2017/9/16.
  */
 @RestController
 @RequestMapping("/stu")
-public class StudentController {
+public class StudentController extends BaseController {
 
     @Autowired
     private StudentService studentService;
@@ -47,6 +35,16 @@ public class StudentController {
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ResponseSimpleUtil StuInfo(@RequestParam("stuId") Integer stuId) {
+        Student student = studentService.queryStudentInfoById(stuId);
+        if (student == null)
+            return new ResponseSimpleUtil(ResponseCodeEnum.OK);
+        else
+            return new ResponseUtil<Student>(ResponseCodeEnum.OK, student);
+    }
+
+
+    @RequestMapping(value = "/info2", method = RequestMethod.GET)
+    public ResponseSimpleUtil StuInfoToken(@ModelAttribute("stuId") Integer stuId) {
         Student student = studentService.queryStudentInfoById(stuId);
         if (student == null)
             return new ResponseSimpleUtil(ResponseCodeEnum.OK);
@@ -90,8 +88,5 @@ public class StudentController {
         else
             return "fail";
     }
-
-
-
 
 }

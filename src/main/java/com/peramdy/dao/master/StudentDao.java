@@ -8,5 +8,10 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface StudentDao {
     Student queryStudentInfo(@Param("id") Integer id);
+
     int addStuInfo(Student student);
+
+    int updateToken(@Param("token") String token, @Param("stuId") Integer stuId);
+
+    int queryStuIdByToken(@Param("token") String token);
 }

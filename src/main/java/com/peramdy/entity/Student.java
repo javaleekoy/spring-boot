@@ -13,6 +13,7 @@ public class Student {
     private Integer id;
     private String stuName;
     private Integer classId;
+    private String token;
 
     @Override
     public String toString() {

@@ -1,6 +1,6 @@
 package com.peramdy;
 
-import filter.AddRequestParsFilter;
+import com.peramdy.filter.AddRequestParsFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

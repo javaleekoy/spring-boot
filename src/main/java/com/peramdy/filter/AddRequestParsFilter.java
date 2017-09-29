@@ -1,4 +1,4 @@
-package filter;
+package com.peramdy.filter;
 
 import com.peramdy.common.AddParametersForHeader;
 

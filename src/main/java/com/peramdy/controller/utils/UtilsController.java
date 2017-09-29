@@ -1,7 +1,6 @@
 package com.peramdy.controller.utils;
 
 import com.peramdy.utils.SaltUtils;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;

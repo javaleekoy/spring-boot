@@ -12,4 +12,5 @@ public interface StudentDao {
     Student queryStuInfo(@Param("id") Integer stuId);
 
     int addStuInfo(Student student);
+
 }
