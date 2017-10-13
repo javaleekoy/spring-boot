@@ -48,7 +48,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface StuId {
-    String desc() default "描述";
+    String desc() default "";
 
     String id() default "1";
 
