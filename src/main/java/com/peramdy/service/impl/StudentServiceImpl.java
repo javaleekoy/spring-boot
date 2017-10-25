@@ -50,7 +50,7 @@ public class StudentServiceImpl implements StudentService {
     @ServiceLogger(desc = "queryUserIdToken")
     @Override
     public int queryUserIdByToken(String token) {
-//        Integer.parseInt("sss");
-        return studentMasterDao.queryStuIdByToken(token);
+        int userId = studentMasterDao.queryStuIdByToken(token);
+        return userId;
     }
 }

@@ -1,5 +1,6 @@
 package com.peramdy.controller.student;
 
+import com.peramdy.annotation.UserId;
 import com.peramdy.common.Enum.ResponseCodeEnum;
 import com.peramdy.controller.base.BaseController;
 import com.peramdy.entity.Student;
@@ -18,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/stu")
-public class StudentController extends BaseController {
+public class StudentController
+        extends BaseController
+ {
 
     @Autowired
     private StudentService studentService;
@@ -87,6 +90,16 @@ public class StudentController extends BaseController {
             return "success";
         else
             return "fail";
+    }
+
+
+    @RequestMapping(value = "/queryInfo", method = RequestMethod.POST)
+    public ResponseSimpleUtil queryInfo(@UserId Integer stuId) {
+        Student student = studentService.queryStudentInfoById(stuId);
+        if (student == null)
+            return new ResponseSimpleUtil(ResponseCodeEnum.OK);
+        else
+            return new ResponseUtil<Student>(ResponseCodeEnum.OK, student);
     }
 
 }
