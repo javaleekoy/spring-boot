@@ -4,11 +4,11 @@ import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Created by peramdy on 2017/9/16.
+ * @author peramdy on 2017/9/16.
  */
 
 @Data
-public class Student {
+public class Stu {
 
     private Integer id;
     private String stuName;

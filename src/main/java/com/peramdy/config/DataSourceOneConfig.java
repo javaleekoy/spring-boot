@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 /**
- * Created by peramdy on 2017/9/16.
+ * @author peramdy on 2017/9/16.
  */
 @Configuration
 @EnableTransactionManagement
@@ -48,9 +48,7 @@ public class DataSourceOneConfig implements EnvironmentAware {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
-//        sqlSessionFactoryBean.setTypeAliasesPackage("com.peramdy.dao");
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-//        sqlSessionFactoryBean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
