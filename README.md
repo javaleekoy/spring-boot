@@ -50,4 +50,12 @@ endpoints.metrics.path=/endPoints/m
     <artifactId>hal-browser</artifactId>
 </dependency>
 
+请求： http://${applicationName}/docs
+
+<!-- actuator文档插件 有详细的actuator介绍-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-actuator-docs</artifactId>
+</dependency>
+
 ````
