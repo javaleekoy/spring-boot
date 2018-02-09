@@ -13,3 +13,11 @@ spring:
     max-active: 20
     min-evictable-idle-time-millis: 300000
 
+##### spring actuator #####
+management:
+  security:
+    enabled: false
+endpoints:
+  beans:
+    path: /nihao/hello
+
