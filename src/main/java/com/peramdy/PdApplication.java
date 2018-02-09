@@ -13,8 +13,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 @SpringBootApplication
 @MapperScan(value = "com.peramdy.mapper")
 public class PdApplication extends SpringBootServletInitializer {
-
-
+    
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(PdApplication.class);
         springApplication.run(args);

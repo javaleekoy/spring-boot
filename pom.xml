@@ -50,11 +50,22 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-
-        <!-- actuator(spring-boot 监控) -->
+        <!-- actuator (spring-boot 监控) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- hateoasUI (监控端点) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+
+        <!-- hateoas(查看监控端点url：图形化界面) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>hal-browser</artifactId>
         </dependency>
 
 
