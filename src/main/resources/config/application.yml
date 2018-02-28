@@ -20,4 +20,12 @@ management:
 endpoints:
   beans:
     path: /nihao/hello
+  health:
+    sensitive: true
+
+info:
+  app:
+    name: hello
+    description: this is a smiple demo of spring boot
+    version: 1.0.3
 

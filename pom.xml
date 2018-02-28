@@ -1,9 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.peramedy</groupId>
     <artifactId>spring-boot</artifactId>
-    <packaging>war</packaging>
+    <!--<packaging>war</packaging>-->
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>spring-boot Maven Webapp</name>
     <url>http://maven.apache.org</url>
@@ -123,12 +125,67 @@
 
     <build>
         <finalName>spring-boot</finalName>
+
+        <!-- maven打包动态修改替换占位符 @@-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
+
+            <!-- spring-boot-maven-plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- docker-maven-plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.13</version>
+                <configuration>
+
+                    <!-- 配置dockerHost 必须开启docker remote api -->
+                    <dockerHost>http://192.168.136.130:2375</dockerHost>
+
+                    <!-- 配置docker私服 -->
+                    <!--<serverId>dockerNexus</serverId>-->
+                    <!--<registryUrl>http://192.168.136.130:18082</registryUrl>-->
+
+                    <!-- docker镜像名称 -->
+                    <imageName>${project.artifactId}</imageName>
+
+                    <!-- 可选项 每次docker:build都重新tag -->
+                    <forceTags>true</forceTags>
+
+                    <!-- docker tag 可多个tag -->
+                    <imageTags>
+                        <imageTag>latest</imageTag>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+
+                    <!-- Dockerfile 所在的文件目录 -->
+                    <dockerDirectory>${project.build.outputDirectory}</dockerDirectory>
+
+                    <resources>
+                        <resource>
+                            <!-- 用于指定需要复制的根目录 ${project.build.directory} 表示 target 目录 -->
+                            <directory>${project.build.directory}</directory>
+                            <!-- 指定要复制的文件，即为maven打包后生产的jar文件 -->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+
+                </configuration>
+
+            </plugin>
+
         </plugins>
+
     </build>
 
 

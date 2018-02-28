@@ -59,3 +59,61 @@ endpoints.metrics.path=/endPoints/m
 </dependency>
 
 ````
+##### PS: 监控还可以依赖 [spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
+
+##### spring-boot 整合docker
+
+```
+
+<!-- maven打包动态修改替换占位符 @@-->
+<resources>
+    <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+    </resource>
+</resources>
+
+<!-- docker-maven-plugin -->
+<plugin>
+    <groupId>com.spotify</groupId>
+    <artifactId>docker-maven-plugin</artifactId>
+    <version>0.4.13</version>
+    <configuration>
+
+        <!-- 配置dockerHost 必须开启docker remote api -->
+        <dockerHost>http://192.168.136.130:2375</dockerHost>
+
+        <!-- 配置docker私服 -->
+        <!--<serverId>dockerNexus</serverId>-->
+        <!--<registryUrl>http://192.168.136.130:18082</registryUrl>-->
+
+        <!-- docker镜像名称 -->
+        <imageName>${project.artifactId}</imageName>
+
+        <!-- 可选项 每次docker:build都重新tag -->
+        <forceTags>true</forceTags>
+
+        <!-- docker tag 可多个tag -->
+        <imageTags>
+            <imageTag>latest</imageTag>
+            <imageTag>${project.version}</imageTag>
+        </imageTags>
+
+        <!-- Dockerfile 所在的文件目录 -->
+        <dockerDirectory>${project.build.outputDirectory}</dockerDirectory>
+
+        <resources>
+            <resource>
+                <!-- 用于指定需要复制的根目录 ${project.build.directory} 表示 target 目录 -->
+                <directory>${project.build.directory}</directory>
+                <!-- 指定要复制的文件，即为maven打包后生产的jar文件 -->
+                <include>${project.build.finalName}.jar</include>
+            </resource>
+        </resources>
+    </configuration>
+</plugin>
+
+docker 远程api设置   -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+docker 本地仓库设置  -- insecure-registry 192.168.136.130:18082 (http)
+
+```
