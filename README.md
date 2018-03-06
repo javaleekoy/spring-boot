@@ -117,3 +117,22 @@ docker 远程api设置   -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
 docker 本地仓库设置  -- insecure-registry 192.168.136.130:18082 (http)
 
 ```
+##### spring-boot 添加 shell 脚本一件打包
+```
+#!/bin/bash
+#
+# 打包
+#
+cd "${0%/*}"
+cd cd ..
+echo " starting to clean zk-api "
+mvn clean -DskipTests -U
+echo " cleaning zk-api finished "
+echo " starting  to install zk-api "
+mvn install -U
+echo " install zk-api finished "
+echo " docker building  "
+mvn docker:build
+echo " docker build finished "
+exit
+```
