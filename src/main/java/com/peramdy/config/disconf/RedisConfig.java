@@ -1,4 +1,4 @@
-package com.peramdy.config;
+package com.peramdy.config.disconf;
 
 import com.baidu.disconf.client.common.annotations.DisconfFile;
 import com.baidu.disconf.client.common.annotations.DisconfFileItem;
