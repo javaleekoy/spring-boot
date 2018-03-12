@@ -136,3 +136,84 @@ mvn docker:build
 echo " docker build finished "
 exit
 ```
+##### disconf 配置中心
+```
+1.依赖jar包
+<!-- disconf-client -->
+<dependency>
+    <groupId>com.baidu.disconf</groupId>
+    <artifactId>disconf-client</artifactId>
+    <version>2.6.36</version>
+</dependency>
+
+2.添加disconf的支持
+@Configuration
+public class DisconfConfig {
+    @Bean(destroyMethod = "destroy")
+    public DisconfMgrBean getDisconfMgrBean() {
+        DisconfMgrBean disconfMgrBean = new DisconfMgrBean();
+        //扫描包
+        disconfMgrBean.setScanPackage("com.peramdy");
+        return disconfMgrBean;
+    }
+    @Bean(destroyMethod = "destroy", initMethod = "init")
+    public DisconfMgrBeanSecond getDisconfMgrBeanSecond() {
+        DisconfMgrBeanSecond disconfMgrBeanSecond = new DisconfMgrBeanSecond();
+        return disconfMgrBeanSecond;
+    }
+}
+
+3.配置disconf.properties
+# 是否使用远程配置文件
+# true(默认)会从远程获取配置 false则直接获取本地配置
+enable.remote.conf=true
+#
+# 配置服务器的 HOST,用逗号分隔  127.0.0.1:8000,127.0.0.1:8000
+#
+conf_server_host=192.168.136.130:18015
+# 版本, 请采用 X_X_X_X 格式
+version=1_0_0_0
+# APP 请采用 产品线_服务名 格式
+app=spring-boot
+# 环境
+env=local
+# debug
+debug=true
+# 忽略哪些分布式配置，用逗号分隔
+ignore=
+# 获取远程配置 重试次数，默认是3次
+conf_server_url_retry_times=1
+# 获取远程配置 重试时休眠时间，默认是5秒
+conf_server_url_retry_sleep_seconds=1
+
+4.上传redis.properties文件到disconf-web
+
+5.加载配置文件
+@Service
+@Scope("singleton")
+@DisconfFile(filename = "redis.properties")
+public class RedisConf {
+    private String url;
+    private int port;
+    @DisconfFileItem(name = "redis.url", associateField = "url")
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    @DisconfFileItem(name = "redis.port", associateField = "port")
+    public int getPort() {
+        return port;
+    }
+    public void setPort(int port) {
+        this.port = port;
+    }
+    public String getInfo() {
+        return "url：" + getUrl() + "  port：" + getPort();
+    }
+}
+
+ps:disconf修改配置文件值后项目不需重启
+
+```
