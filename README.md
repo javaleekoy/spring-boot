@@ -217,3 +217,18 @@ public class RedisConf {
 ps:disconf修改配置文件值后项目不需重启
 
 ```
+##### elasticSearch
+```
+<!-- elasticsearch -->
+<dependency>
+    <groupId>org.elasticsearch</groupId>
+    <artifactId>elasticsearch</artifactId>
+    <version>5.6.8</version>
+</dependency>
+<!-- transport -->
+<dependency>
+    <groupId>org.elasticsearch.client</groupId>
+    <artifactId>transport</artifactId>
+    <version>5.6.8</version>
+</dependency>
+```

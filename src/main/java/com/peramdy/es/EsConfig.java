@@ -1,4 +1,4 @@
-package com.peramdy.config.disconf;
+package com.peramdy.es;
 
 import com.baidu.disconf.client.common.annotations.DisconfFile;
 import com.baidu.disconf.client.common.annotations.DisconfFileItem;
@@ -7,20 +7,20 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 /**
- * @author pd 2018/3/12.
+ * @author pd 2018/3/13.
  */
 @Service
+@DisconfFile(filename = "es.properties")
 @Scope("singleton")
-@DisconfFile(filename = "redis.properties")
-public class RedisConfig {
+public class EsConfig {
 
-    @Value("${redis.url}")
+    @Value("${elasticsearch.url}")
     private String url;
 
-    @Value("${redis.port}")
+    @Value("${elasticsearch.port}")
     private int port;
 
-    @DisconfFileItem(name = "redis.url", associateField = "url")
+    @DisconfFileItem(name = "es.url")
     public String getUrl() {
         return url;
     }
@@ -29,7 +29,7 @@ public class RedisConfig {
         this.url = url;
     }
 
-    @DisconfFileItem(name = "redis.port", associateField = "port")
+    @DisconfFileItem(name = "es.port")
     public int getPort() {
         return port;
     }
@@ -38,9 +38,8 @@ public class RedisConfig {
         this.port = port;
     }
 
-    public String getInfo() {
 
+    public String getInfo() {
         return "url：" + getUrl() + "  port：" + getPort();
     }
-
 }

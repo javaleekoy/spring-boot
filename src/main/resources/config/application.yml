@@ -29,3 +29,11 @@ info:
     description: this is a smiple demo of spring boot
     version: 1.0.3
 
+elasticsearch:
+   url: 192.168.136.130
+   port: 19300
+
+redis:
+   url: 192.168.136.130
+   port: 16379
+
