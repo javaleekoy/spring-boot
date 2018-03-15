@@ -37,6 +37,6 @@ public class TestController {
 
     @GetMapping("/es")
     public Object getEsInfo() {
-        return esConfig.getInfo();
+        return esConfig.toString();
     }
 }

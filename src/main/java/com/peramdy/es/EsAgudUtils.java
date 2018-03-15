@@ -8,8 +8,6 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -18,14 +16,11 @@ import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
 import org.elasticsearch.script.Script;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Map;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
@@ -34,28 +29,12 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
  * @author pd 2018/3/13.
  */
 @Component
-public class EsUtils {
+public class EsAgudUtils {
 
-    private Logger logger = LoggerFactory.getLogger(EsUtils.class);
+    private Logger logger = LoggerFactory.getLogger(EsAgudUtils.class);
 
     @Autowired
-    private EsConfig esConfig;
-
-    public TransportClient createEsClient() {
-        Settings settings = Settings.builder()
-                .put("client.transport.ping_timeout", 5)
-                .build();
-
-        logger.info("esConf-url : " + esConfig.getUrl());
-        logger.info("esConf-port : " + esConfig.getPort());
-        TransportClient client = new PreBuiltTransportClient(Settings.EMPTY);
-        try {
-            client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(esConfig.getUrl()), esConfig.getPort()));
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return client;
-    }
+    private EsClientBuilder esClientBuilder;
 
 
     //======================================================添加索引数据=================================================>>
@@ -76,7 +55,7 @@ public class EsUtils {
             logger.info("type : " + type);
             logger.info("id : " + id);
             logger.info("jsonContent : " + json);
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
             IndexResponse indexResponse;
             if (id == null) {
                 indexResponse = client.prepareIndex(index, type).setSource(json, XContentType.JSON).get();
@@ -110,7 +89,7 @@ public class EsUtils {
             logger.info("type : " + type);
             logger.info("id : " + id);
             logger.info("map : " + map.toString());
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
             IndexResponse indexResponse = null;
             if (id == null) {
                 indexResponse = client.prepareIndex(index, type).setSource(map).get();
@@ -145,7 +124,7 @@ public class EsUtils {
             logger.info("getIndex : " + index);
             logger.info("getType : " + type);
             logger.info("getId : " + id);
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
             GetResponse getResponse = client.prepareGet(index, type, id).get();
             logger.info("getResponse-index : " + getResponse.getIndex());
             logger.info("getResponse-type : " + getResponse.getType());
@@ -180,7 +159,7 @@ public class EsUtils {
             logger.info("type : " + type);
             logger.info("id : " + id);
             logger.info("map : " + map.toString());
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
             UpdateResponse response = client.prepareUpdate(index, type, id).setDoc(map).get();
             logger.info("updateResponse-index : " + response.getIndex());
             logger.info("updateResponse-type : " + response.getType());
@@ -211,7 +190,7 @@ public class EsUtils {
             logger.info("type : " + type);
             logger.info("id : " + id);
             logger.info("script : " + script);
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
             UpdateResponse response = client.prepareUpdate(index, type, id).setScript(new Script(script)).get();
             logger.info("updateResponse-index : " + response.getIndex());
             logger.info("updateResponse-type : " + response.getType());
@@ -241,7 +220,7 @@ public class EsUtils {
             logger.info("type : " + type);
             logger.info("id : " + id);
             logger.info("map : " + map.toString());
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
 
             IndexRequest indexRequest = new IndexRequest(index, type, id);
             XContentBuilder indexXContentBuilder = jsonBuilder().startObject();
@@ -289,7 +268,7 @@ public class EsUtils {
             logger.info("delIndex : " + index);
             logger.info("delType : " + type);
             logger.info("delId : " + id);
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
             DeleteResponse deleteResponse = client.prepareDelete(index, type, id).get();
             logger.info("deleteResponse-index : " + deleteResponse.getIndex());
             logger.info("deleteResponse-type : " + deleteResponse.getType());
@@ -315,7 +294,7 @@ public class EsUtils {
         try {
             logger.info("delQueryIndices : " + indices);
             logger.info("delQueryType : " + types);
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
 
             DeleteByQueryAction deleteByQueryAction = DeleteByQueryAction.INSTANCE;
             DeleteByQueryRequestBuilder deleteByQueryRequestBuilder = deleteByQueryAction.newRequestBuilder(client);
@@ -350,7 +329,7 @@ public class EsUtils {
         try {
             logger.info("delQueryInfoOperationIndices : " + indices);
             logger.info("delQueryInfoOperationTypes : " + types);
-            client = createEsClient();
+            client = esClientBuilder.buildDefault();
 
             DeleteByQueryAction deleteByQueryAction = DeleteByQueryAction.INSTANCE;
             DeleteByQueryRequestBuilder deleteByQueryRequestBuilder = deleteByQueryAction.newRequestBuilder(client);

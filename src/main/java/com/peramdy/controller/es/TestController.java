@@ -1,7 +1,10 @@
 package com.peramdy.controller.es;
 
+import com.peramdy.entity.Stu;
+import com.peramdy.es.EsAgudUtils;
 import com.peramdy.es.EsSearchUtils;
-import com.peramdy.es.EsUtils;
+import com.peramdy.es.spring.EsCrudUtils;
+import com.peramdy.es.spring.EsPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +21,13 @@ import java.util.Map;
 public class TestController {
 
     @Autowired
-    private EsUtils esUtils;
+    private EsAgudUtils esUtils;
 
     @Autowired
     private EsSearchUtils esSearchUtils;
+
+    @Autowired
+    private EsCrudUtils esCrudUtils;
 
     private static String index = "peramdy";
     private static String type = "huahua";
@@ -29,11 +35,6 @@ public class TestController {
     @GetMapping("/addIndexMap")
     public String addIndexMap() {
         Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("name", "张三");
-//        map.put("gender", "男");
-//        map.put("country", "中华人民共和国");
-//        map.put("address", "中国上海市徐汇区");
-//        map.put("age", 18);
         map.put("name", "陈二");
         map.put("gender", "男");
         map.put("country", "南非共和国");
@@ -122,7 +123,7 @@ public class TestController {
     public String searchIndices() {
         String[] indices = new String[]{index};
         String[] types = new String[]{type};
-        esSearchUtils.searchIndices(indices, types, "gender", "男");
+        esSearchUtils.searchIndices(indices, types, "gender", "男", 1, 10);
         return "success";
     }
 
@@ -133,8 +134,8 @@ public class TestController {
         String[] types = new String[]{type};
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("gender", "女");
-//        map.put("name", "王五");
-        esSearchUtils.searchIndicesAnd(indices, types, map);
+        map.put("name", "王五");
+        esSearchUtils.searchIndicesAnd(indices, types, map, 1, 10);
         return "success";
     }
 
@@ -145,7 +146,7 @@ public class TestController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("gender", "女");
         map.put("name", "王五");
-        esSearchUtils.searchIndicesNot(indices, types, map);
+        esSearchUtils.searchIndicesNot(indices, types, map, 1, 10);
         return "success";
     }
 
@@ -155,7 +156,7 @@ public class TestController {
         String[] types = new String[]{type};
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("gender", "女");
-        esSearchUtils.searchIndicesShould(indices, types, map);
+        esSearchUtils.searchIndicesShould(indices, types, map, 1, 10);
         return "success";
     }
 
@@ -165,8 +166,90 @@ public class TestController {
         String[] indices = new String[]{index};
         String[] types = new String[]{type};
         String[] fields = new String[]{"gender", "country"};
-        esSearchUtils.searchIndicesHighlight(indices, types, fields, "男");
+        esSearchUtils.searchIndicesHighlight(indices, types, fields, "男", 1, 10);
         return "success";
     }
+
+    @GetMapping("/saveDoc")
+    public String saveDoc() throws Exception {
+        Stu stu = new Stu();
+        stu.setClassId(1);
+        stu.setStuName("jacky");
+        stu.setId(26);
+        esCrudUtils.saveDoc(index, type, "11", stu);
+        return "success";
+    }
+
+
+    @GetMapping("/updateDoc")
+    public String updateDoc() throws Exception {
+        Stu stu = new Stu();
+        stu.setClassId(1);
+        stu.setStuName("jack");
+        stu.setId(18);
+        esCrudUtils.updateDoc(index, type, "10", stu);
+        return "success";
+    }
+
+    @GetMapping("/getIdx")
+    public String getIdx() throws Exception {
+        String str = esCrudUtils.getIdx(index, type, "11");
+        return str;
+    }
+
+    @GetMapping("/getIdx2")
+    public String getIdx2() throws Exception {
+        Class<Stu> stu = esCrudUtils.getIdx(index, type, "10", Stu.class);
+        return stu.toString();
+    }
+
+    @GetMapping("/deleteById")
+    public String deleteById() throws Exception {
+        esCrudUtils.deleteById(index, type, "10");
+        return "success";
+    }
+
+    @GetMapping("/searchFullText")
+    public String searchFullText() throws Exception {
+        Stu stu = new Stu();
+        stu.setClassId(1);
+        EsPage<Stu> page = new EsPage<Stu>();
+        page.setPageSize(10);
+        page.setPageNo(1);
+        page = esCrudUtils.searchFullText(stu, page, index);
+        return "success";
+    }
+
+
+    @GetMapping("/searchFullText2")
+    public String searchFullText2() throws Exception {
+        Stu stu = new Stu();
+        stu.setStuName("j");
+        EsPage<Stu> page = new EsPage<Stu>();
+        page.setPageSize(10);
+        page.setPageNo(1);
+        page = esCrudUtils.searchFullText2(stu, page, index);
+        return "success";
+    }
+
+
+    @GetMapping("/isIndexExist")
+    public String isIndexExist() throws Exception {
+        boolean reBoolean = esCrudUtils.isIndexExist(index);
+        return reBoolean + "";
+    }
+
+    @GetMapping("/isTypeExist")
+    public String isTypeExist() throws Exception {
+        esCrudUtils.isTypeExist(index, type);
+        return "success";
+    }
+
+    @GetMapping("/searchFullText3")
+    public String searchFullText3() throws Exception {
+        esCrudUtils.searchFullText("gender", "男", 1, 2, index);
+        return "success";
+    }
+
 
 }

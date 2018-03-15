@@ -32,6 +32,7 @@ info:
 elasticsearch:
    url: 192.168.136.130
    port: 19300
+   clusterNodes: 192.168.136.130:19300
 
 redis:
    url: 192.168.136.130
