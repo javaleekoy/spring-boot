@@ -1,6 +1,7 @@
 package com.peramdy.entity;
 
 import com.peramdy.es.spring.ESearchType;
+import com.peramdy.es.spring.EsDataType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
@@ -11,11 +12,11 @@ import java.io.Serializable;
 
 public class Stu implements Serializable {
 
-    @ESearchType(type = "Integer")
+    @ESearchType(type = EsDataType.INTEGER)
     private Integer id;
-    @ESearchType(analyze = true)
+    @ESearchType(analyze = true, type = EsDataType.STRING)
     private String stuName;
-    @ESearchType(type = "Integer")
+    @ESearchType(type = EsDataType.INTEGER)
     private Integer classId;
 
 

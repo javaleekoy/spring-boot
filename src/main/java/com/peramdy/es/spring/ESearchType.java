@@ -15,7 +15,7 @@ public @interface ESearchType {
      *
      * @return
      */
-    String type() default "string";
+    EsDataType type() default EsDataType.STRING;
 
     /**
      * 是否分词

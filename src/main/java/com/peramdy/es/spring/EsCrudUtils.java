@@ -289,9 +289,49 @@ public class EsCrudUtils {
             logger.error("{}索引不存在", index);
             return false;
         }
+        XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
+        Class object = entity.getClass();
+        List<Field> fieldList = new ArrayList<Field>();
+        while (object != null) {
+            fieldList.addAll(Arrays.asList(object.getDeclaredFields()));
+            object = object.getSuperclass();
+        }
+        for (Field field : fieldList) {
+            if (field.isAnnotationPresent(ESearchType.class)) {
+                ESearchType eSearchType = field.getAnnotation(ESearchType.class);
+                boolean analyze = eSearchType.analyze();
+                EsDataType esDataType = eSearchType.type();
+                System.out.println(field.getName());
+                builder.startObject(field.getName());
+                //判断field类型
+                if (EsDataType.STRING.getId() == esDataType.getId()) {
+                    builder.field("type", EsDataType.STRING.getValue());
+                } else if (EsDataType.SHORT.getId() == esDataType.getId()) {
+                    builder.field("type", EsDataType.SHORT.getValue());
+                } else if (EsDataType.BYTE.getId() == esDataType.getId()) {
+                    builder.field("type", EsDataType.BYTE.getValue());
+                } else if (EsDataType.DOUBLE.getId() == esDataType.getId()) {
+                    builder.field("type", EsDataType.DOUBLE.getValue());
+                } else if (EsDataType.FLOAT.getId() == esDataType.getId()) {
+                    builder.field("type", EsDataType.FLOAT.getValue());
+                } else if (EsDataType.INTEGER.getId() == esDataType.getId()) {
+                    builder.field("type", EsDataType.INTEGER.getValue());
+                } else {
+                    builder.field("type", EsDataType.STRING.getValue());
+                }
+                //判断是否用分词器
+                if (analyze) {
+                    builder.field("analyzer", "ik_max_word");
+                    builder.field("search_analyzer", "ik_max_word");
+                }
+                builder.endObject();
+            }
+        }
+        builder.endObject();
+
         try {
             // 若type存在则可通过该方法更新type
-            return client.admin().indices().preparePutMapping(index).setType(type).setSource(entity).get().isAcknowledged();
+            return client.admin().indices().preparePutMapping(index).setType(type).setSource(builder).get().isAcknowledged();
         } catch (Exception e) {
             logger.error("创建type失败，{}", e.getMessage());
             e.printStackTrace();

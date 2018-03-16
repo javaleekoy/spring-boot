@@ -174,7 +174,7 @@ public class TestController {
     public String saveDoc() throws Exception {
         Stu stu = new Stu();
         stu.setClassId(1);
-        stu.setStuName("jacky");
+        stu.setStuName("美利坚合众国*美国佬");
         stu.setId(26);
         esCrudUtils.saveDoc(index, type, "11", stu);
         return "success";
@@ -248,6 +248,13 @@ public class TestController {
     @GetMapping("/searchFullText3")
     public String searchFullText3() throws Exception {
         esCrudUtils.searchFullText("gender", "男", 1, 2, index);
+        return "success";
+    }
+
+    @GetMapping("/createType")
+    public String createType() throws Exception {
+        Stu stu = new Stu();
+        esCrudUtils.createType(index, "hello", stu);
         return "success";
     }
 

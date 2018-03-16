@@ -231,4 +231,37 @@ ps:disconf修改配置文件值后项目不需重启
     <artifactId>transport</artifactId>
     <version>5.6.8</version>
 </dependency>
+
+分词器
+elasticsearch-analysis-ik （5.6.8）
+elasticsearch-analysis-pinyin（5.6.8）
+
+自定义分析器
+
+需要理解elasticsearch的setttings和mapping的概念
+Setting 是 针对于索引库而言 可以设置索引库的分片数量 和 副本数量
+Mappings相当于数据库中对字段的类型约束 以及 某些字段查询时指定分词器 
+
+添加分词器
+PUT peramdy
+{
+  "mappings": {
+    "huahua":{
+      "properties": {
+        "stuName":{
+          "type":"text",
+          "analyzer": "ik_max_word",
+          "search_analyzer": "ik_max_word"
+        },
+        "id":{
+          "type":"integer"
+        },
+        "classId":{
+          "type":"integer"
+        }
+      }
+    }
+  }
+}
+
 ```
