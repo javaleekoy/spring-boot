@@ -144,6 +144,15 @@
             <version>5.6.8</version>
         </dependency>
 
+
+        <!-- mongodb-driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+
+
         <!-- junit -->
         <dependency>
             <groupId>junit</groupId>

@@ -265,3 +265,12 @@ PUT peramdy
 }
 
 ```
+##### mongodb
+```
+<!-- mongodb-driver -->
+<dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>mongodb-driver</artifactId>
+    <version>3.6.3</version>
+</dependency>
+```
