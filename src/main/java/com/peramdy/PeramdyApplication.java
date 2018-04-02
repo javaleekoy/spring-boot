@@ -13,12 +13,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * Created by peramdy on 2017/9/12.
+ * @author pd 2017/9/12.
  */
 @SpringBootApplication
 @ComponentScan(basePackages = "com.peramdy")
-public class PeramdyApplication
-        extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
+public class PeramdyApplication extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
 
     private final static Logger logger = LoggerFactory.getLogger(PeramdyApplication.class);
 
@@ -54,7 +53,6 @@ public class PeramdyApplication
             logger.error("------->启动参数不能为空!");
             System.exit(0);
         }
-
         SpringApplication.run(PeramdyApplication.class, args);
     }
 }
