@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.peramdy.dao.slaver.StudentDao">
+<mapper namespace="com.peramdy.dao.dynamic.StudentDao">
     <select id="queryStuInfo" parameterType="java.lang.Integer" resultType="com.peramdy.entity.Student">
         SELECT * FROM  student  s WHERE  s.id=#{id}
     </select>

@@ -1,45 +1,54 @@
 package com.peramdy.service.impl;
 
-import com.peramdy.dao.master.StudentDao;
+import com.peramdy.config.PdDS;
+import com.peramdy.config.PdDsEnum;
+import com.peramdy.dao.dynamic.StudentDao;
 import com.peramdy.entity.Student;
-import com.peramdy.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.peramdy.service.IStudentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 /**
- * Created by peramdy on 2017/9/16.
+ * @author pd
  */
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl implements IStudentService {
 
     @Resource
-    private StudentDao studentMasterDao;
-
-    @Autowired
-    private com.peramdy.dao.slaver.StudentDao studentSlaverDao;
+    private StudentDao studentDao;
 
     @Override
-    public Student queryStudentInfoById(Integer id) {
-        return studentMasterDao.queryStudentInfo(id);
+    @PdDS(value = PdDsEnum.DS_SLAVE)
+    public Student queryStudentInfoById_slave(Integer id) {
+        return studentDao.queryStuInfo(id);
     }
 
     @Override
-    public Student addStuInfo(Student student) {
-        int primaryId = studentMasterDao.addStuInfo(student);
-        student.setId(primaryId);
-        return student;
-    }
-
-
-    @Override
-    public Student queryStudentInfoById_slaver(Integer id) {
-        return studentSlaverDao.queryStuInfo(id);
+    @PdDS(value = PdDsEnum.DS_SLAVE)
+    public int addStuInfo_slave(Student student) {
+        return studentDao.addStuInfo(student);
     }
 
     @Override
-    public int addStuInfo_slaver(Student student) {
-        return studentSlaverDao.addStuInfo(student);
+    @PdDS(value = PdDsEnum.DS_MASTER)
+    public Student queryStudentInfoById_master(Integer id) {
+        return studentDao.queryStuInfo(id);
+    }
+
+    @Override
+    @PdDS(value = PdDsEnum.DS_MASTER)
+    public int addStuInfo_master(Student student) {
+        return studentDao.addStuInfo(student);
+    }
+
+    @Override
+    public Student queryStudentInfoById_default(Integer id) {
+        return studentDao.queryStuInfo(id);
+    }
+
+    @Override
+    public int addStuInfo_default(Student student) {
+        return studentDao.addStuInfo(student);
     }
 }

@@ -1,15 +1,27 @@
-package com.peramdy.dao.slaver;
+package com.peramdy.dao.dynamic;
 
 import com.peramdy.entity.Student;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by peramdy on 2017/9/19.
+ * @author pd
  */
-@Component("studentSlaverDao")
 public interface StudentDao {
+    /**
+     * query
+     *
+     * @param stuId
+     * @return
+     */
     Student queryStuInfo(@Param("id") Integer stuId);
 
+    /**
+     * add
+     *
+     * @param student
+     * @return
+     */
     int addStuInfo(Student student);
 }
