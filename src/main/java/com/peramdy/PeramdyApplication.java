@@ -1,5 +1,6 @@
 package com.peramdy;
 
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -11,6 +12,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class PeramdyApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PeramdyApplication.class, args);
+        SpringApplication application = new SpringApplication(PeramdyApplication.class);
+        application.setBannerMode(Banner.Mode.CONSOLE);
+        application.run(args);
     }
 }

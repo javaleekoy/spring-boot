@@ -64,18 +64,6 @@ public class PdDbConfigDynamic {
         return sqlSessionFactoryBean.getObject();
     }
     
-    @Bean
-    public SqlSessionFactory sqlSessionFactoryDynamic() throws Exception {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        logger.info("sqlSessionFactoryDynamic：[{}]", dynamicDs.toString());
-        /** 配置数据源，若没有则不能实现切换（重点） **/
-        sqlSessionFactoryBean.setDataSource(dynamicDs);
-        /** 设置扫描路径 **/
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources(MAPPER_LOCATION));
-        return sqlSessionFactoryBean.getObject();
-    }
-
     /**
      * SqlSessionTemplate是SqlSession的实现类，较SqlSession的默认实现类DefaultSqlSession来说，是线程安全的
      *
@@ -225,4 +213,14 @@ public class StudentServiceImpl implements IStudentService {
     <artifactId>druid-spring-boot-starter</artifactId>
     <version>1.1.9</version>
 </dependency>
+```
+- 修改启动banner
+```text
+在resource目录下新建一个banner.txt文件存放banner
+
+ SpringApplication application = new SpringApplication(PeramdyApplication.class);
+        application.setBannerMode(Banner.Mode.CONSOLE);
+        application.run(args);
+        
+banner符生成网站： http://patorjk.com/       
 ```
