@@ -224,3 +224,74 @@ public class StudentServiceImpl implements IStudentService {
         
 banner符生成网站： http://patorjk.com/       
 ```
+- spring-boot mvc
+```text
+继承SpringBootServletInitializer类重写configure方法
+PeramdyApplication extends SpringBootServletInitializer
+
+@Controller和@RestController区别
+
+@RestController is a stereotype annotation that combines @ResponseBody and @Controller.
+@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。
+
+1)如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，配置的视图解析器
+InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。
+例如：本来应该到success.jsp页面的，则其显示success.
+2)如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。
+3)如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。
+
+1.application.yml文件中添加如下配置
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+
+@Controller
+public class PdMvcConfig  {
+    @RequestMapping(value = {"/index"})
+    public ModelAndView index() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("index");
+        return mv;
+    }
+    @RequestMapping("/home")
+    public String home() {
+        return "index";
+    }
+}
+
+2.自定义视图解析器
+@Controller
+@EnableWebMvc
+public class PdMvcConfig implements WebMvcConfigurer {
+
+    @RequestMapping("/home")
+    public String home() {
+        return "index";
+    }
+         
+    /**
+     * 配置视图解析器
+     * @return
+     */
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/view/");
+        resolver.setSuffix(".html");
+        /*resolver.setSuffix(".jsp");*/
+        return resolver;
+    }
+
+    /**
+     * 静态资源解析
+     * @param configurer
+     */
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+}
+
+```

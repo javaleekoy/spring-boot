@@ -19,6 +19,7 @@ public class StudentController {
     @Autowired
     private StudentServiceImlSlave studentServiceImlSlave;
 
+    @ResponseBody
     @GetMapping(value = "/master/info")
     public String stuInfo_master(@RequestParam("stuId") Integer stuId) {
         Student student = studentService.queryStudentInfoById_master(stuId);
@@ -29,6 +30,7 @@ public class StudentController {
         }
     }
 
+    @ResponseBody
     @RequestMapping(value = "/slave/info", method = RequestMethod.GET)
     public String stuInfo_slave(@RequestParam("stuId") Integer stuId) {
         Student student = studentService.queryStudentInfoById_slave(stuId);
@@ -39,6 +41,7 @@ public class StudentController {
         }
     }
 
+    @ResponseBody
     @RequestMapping(value = "/default/info", method = RequestMethod.GET)
     public String stuInfo_default(@RequestParam("stuId") Integer stuId) {
         Student student = studentService.queryStudentInfoById_default(stuId);
@@ -49,6 +52,7 @@ public class StudentController {
         }
     }
 
+    @ResponseBody
     @RequestMapping(value = "/slave2/info", method = RequestMethod.GET)
     public String stuInfo_slave2(@RequestParam("stuId") Integer stuId) {
         Student student = studentServiceImlSlave.queryStudentInfoById_slave(stuId);
@@ -92,6 +96,7 @@ public class StudentController {
         }
     }
 
+    @ResponseBody
     @RequestMapping(value = "/slave2/add", method = RequestMethod.GET)
     public String addStuInfo_slave2(@RequestBody Student stu) {
         int student = studentServiceImlSlave.addStuInfo_slave(stu);

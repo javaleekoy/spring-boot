@@ -1,4 +1,4 @@
-package com.peramdy.config;
+package com.peramdy.config.datasource;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -20,7 +20,7 @@ public class PdAspectDataSource {
 
     private static Logger logger = LoggerFactory.getLogger(PdAspectDataSource.class);
 
-    @Before(value = "@annotation(PdDS)")
+    @Before(value = "@annotation(com.peramdy.config.datasource.PdDS)")
     public void changeDs(JoinPoint joinPoint) {
         /**数据源默认值**/
         String value = PdDsEnum.DEFAULT.getValue();
@@ -44,7 +44,7 @@ public class PdAspectDataSource {
         PdDynamicDsContextHolder.setDataSourceKey(value);
     }
 
-    @After(value = "@annotation(PdDS)")
+    @After(value = "@annotation(com.peramdy.config.datasource.PdDS)")
     public void removeDs(JoinPoint joinPoint) {
         logger.info("removeDs：[{}]", PdDynamicDsContextHolder.getDataSourceKey());
         PdDynamicDsContextHolder.clean();

@@ -1,4 +1,4 @@
-package com.peramdy.config;
+package com.peramdy.config.datasource;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;

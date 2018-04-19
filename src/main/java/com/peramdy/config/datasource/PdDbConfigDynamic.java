@@ -1,4 +1,4 @@
-package com.peramdy.config;
+package com.peramdy.config.datasource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

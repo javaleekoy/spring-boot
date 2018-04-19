@@ -1,7 +1,7 @@
 package com.peramdy.service.impl;
 
-import com.peramdy.config.PdDS;
-import com.peramdy.config.PdDsEnum;
+import com.peramdy.config.datasource.PdDS;
+import com.peramdy.config.datasource.PdDsEnum;
 import com.peramdy.dao.dynamic.StudentDao;
 import com.peramdy.entity.Student;
 import com.peramdy.service.IStudentService;
