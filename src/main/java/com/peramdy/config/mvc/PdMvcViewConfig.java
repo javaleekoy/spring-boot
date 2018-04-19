@@ -9,14 +9,15 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 /**
  * @author pd
  */
 
 @Controller
-@EnableWebMvc
-public class PdMvcViewConfig implements WebMvcConfigurer {
+/*@EnableWebMvc*/
+public class PdMvcViewConfig/* implements WebMvcConfigurer */{
 
 
     @RequestMapping(value = {"/index"})
@@ -32,26 +33,19 @@ public class PdMvcViewConfig implements WebMvcConfigurer {
     }
 
 
-    /**
-     * 配置视图解析器
-     * @return
-     */
-    @Bean
+
+   /* @Bean
     public ViewResolver viewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        ThymeleafViewResolver resolver=new ThymeleafViewResolver();
         resolver.setPrefix("/WEB-INF/view/");
         resolver.setSuffix(".html");
-        /*resolver.setSuffix(".jsp");*/
+        resolver.setSuffix(".jsp");
         return resolver;
     }
 
 
-    /**
-     * 静态资源解析
-     * @param configurer
-     */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
-    }
+    }*/
 }

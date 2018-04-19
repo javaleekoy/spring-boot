@@ -11,6 +11,6 @@
     <title>hello</title>
 </head>
 <body>
-hello InternalResourceViewResolver jsp
+hello thymeleaf jsp
 </body>
 </html>

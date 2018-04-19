@@ -24,10 +24,15 @@ spring:
         max-wait: 60000
         max-active: 20
         min-evictable-idle-time-millis: 300000
-#  mvc:
-#    view:
-#      prefix: /WEB-INF/view/
-#      suffix: .jsp
+  thymeleaf:
+    encoding: UTF-8
+    prefix: classpath:/web/
+    suffix: .html
+    mode: HTML5
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
 mybatis:
   mapper-locations: com.peramdy.dao.dynamic
   type-aliases-package: classpath:mapper/dynamic/*.xml
