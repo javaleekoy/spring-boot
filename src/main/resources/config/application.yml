@@ -1,5 +1,11 @@
 server:
     port: 80
+    ssl:
+      key-alias: tomcat
+      key-store: .keystore
+      key-password: 123456
+      key-store-type: JKS
+      enabled: false
 #    address: 127.0.0.1
 spring:
   datasource:
@@ -26,13 +32,16 @@ spring:
         min-evictable-idle-time-millis: 300000
   thymeleaf:
     encoding: UTF-8
-    prefix: classpath:/web/
+    prefix: classpath:/webapp/
     suffix: .html
     mode: HTML5
   mvc:
-    view:
-      prefix: /WEB-INF/view/
-      suffix: .jsp
+    favicon:
+      enabled: true
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/view/
+#      suffix: .jsp
 mybatis:
   mapper-locations: com.peramdy.dao.dynamic
   type-aliases-package: classpath:mapper/dynamic/*.xml

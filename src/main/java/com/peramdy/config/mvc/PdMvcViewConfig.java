@@ -43,7 +43,6 @@ public class PdMvcViewConfig/* implements WebMvcConfigurer */{
         return resolver;
     }
 
-
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
