@@ -25,7 +25,7 @@ endpoints:
 
 info:
   app:
-    name: hello
+    name: spring-boot
     description: this is a smiple demo of spring boot
     version: 1.0.3
 

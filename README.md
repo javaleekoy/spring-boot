@@ -2,7 +2,7 @@
 
 ##### actuator
 
-````
+````xml
 
 请求： GET http://${applicationName}/endPointName
 
@@ -32,7 +32,7 @@ endpoints.metrics.path=/endPoints/m
 
 ````
 ##### actuator 查看端点信息
-````
+````xml
 
 请求： http://${applicationName}/actuator
 
@@ -63,8 +63,7 @@ endpoints.metrics.path=/endPoints/m
 
 ##### spring-boot 整合docker
 
-```
-
+```xml
 <!-- maven打包动态修改替换占位符 @@-->
 <resources>
     <resource>
@@ -118,7 +117,7 @@ docker 本地仓库设置  -- insecure-registry 192.168.136.130:18082 (http)
 
 ```
 ##### spring-boot 添加 shell 脚本一件打包
-```
+```bash
 #!/bin/bash
 #
 # 打包
@@ -137,7 +136,8 @@ echo " docker build finished "
 exit
 ```
 ##### disconf 配置中心
-```
+
+```text
 1.依赖jar包
 <!-- disconf-client -->
 <dependency>
@@ -218,7 +218,8 @@ ps:disconf修改配置文件值后项目不需重启
 
 ```
 ##### elasticSearch
-```
+
+```text
 <!-- elasticsearch -->
 <dependency>
     <groupId>org.elasticsearch</groupId>
@@ -266,11 +267,54 @@ PUT peramdy
 
 ```
 ##### mongodb
-```
+```xml
 <!-- mongodb-driver -->
 <dependency>
     <groupId>org.mongodb</groupId>
     <artifactId>mongodb-driver</artifactId>
     <version>3.6.3</version>
 </dependency>
+```
+#### controller层异常统一处理
+
+```java
+/*使用@ExceptionHandler统一处理该controller层中的异常*/
+@RestController
+@RequestMapping("/ex")
+public class ExController {
+    @GetMapping("/throwEx")
+    public String throwException() throws Exception {
+        throw new Exception();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String explainException(Exception e) {
+        logger.error(e.getLocalizedMessage());
+        return "500";
+    }
+}
+
+/*使用@ResponseStatus自定义异常返回状态*/
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "nullPointer")
+public class PdNullPointerException extends RuntimeException {
+}
+
+/*
+ *统一处理controller层异常
+ * @ControllerAdvice + @ExceptionHandler + @ResponseStatus
+ * 
+ * */
+@ControllerAdvice
+public class ExAllController {
+
+    private static Logger logger = LoggerFactory.getLogger(ExAllController.class);
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void explainException(Exception e, HttpServletRequest request, HttpServletResponse response) {
+        logger.error(e.getMessage(),e);
+    }
+}
+
+
 ```

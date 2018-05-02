@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/mg")
-public class MgController {
+public class MongoController {
 
     @Autowired
     private MgClient mgClient;

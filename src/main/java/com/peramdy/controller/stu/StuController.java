@@ -1,6 +1,7 @@
 package com.peramdy.controller.stu;
 
 import com.peramdy.entity.Stu;
+import com.peramdy.exception.PdNullPointerException;
 import com.peramdy.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,16 @@ public class StuController {
         } else {
             return student.toString();
         }
+    }
+
+    @GetMapping("/throwEx")
+    public String throwException() throws Exception {
+        throw new Exception();
+    }
+
+    @GetMapping("/throwPdEx")
+    public String throwPdException() throws Exception {
+        throw new PdNullPointerException();
     }
 
 }
